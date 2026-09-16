@@ -24,7 +24,6 @@ The design specification is summarized by the following key rules:
 | [`RTL/`](RTL) | Aligner RTL and its submodules. |
 | [`testbench/`](testbench) | UVM environment, agents, model, register model, sequences, tests, and coverage. |
 | [`sim/run.do`](sim/run.do) | ModelSim/Questa compilation, elaboration, and simulation script. |
-| [`docs/`](docs) | Design documentation and diagrams. |
 
 Generated simulator databases, waveforms, logs, and other files under `sim/`
 are intentionally ignored; only `sim/run.do` is versioned.
@@ -35,21 +34,7 @@ The top-level environment is `cfs_algn_env` in
 [`testbench/cfs_algn_env.sv`](testbench/cfs_algn_env.sv). It instantiates and
 connects these components:
 
-```text
-												 APB register access
-															 |
-											 APB agent + predictor
-															 |
-												 register model
-															 |
-RX MD interface            Aligner DUT             TX MD interface
-			|                         |                         |
-MD master agent  ------------>  |  <----------------  MD slave agent
-			|                         |                         |
-			+------> reference model +------> scoreboard <-----+
-															|
-								 IRQ prediction and split coverage
-```
+![UVM testbench architecture](./aligner_uvm_arch.jpeg)
 
 The virtual sequencer, [`cfs_algn_virtual_sequencer.sv`](testbench/cfs_algn_virtual_sequencer.sv),
 holds handles to the APB sequencer, the MD RX sequencer, the MD TX sequencer,
